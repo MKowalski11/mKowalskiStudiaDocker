@@ -33,3 +33,12 @@ WebApi by³o budowane na wersji 2.1 (na co nawet wskazuj¹ pliki projektu)
 Próba odtworzenia projektu WebApi pod 3.1.201
 
 Odtworzono WebAPI pod now¹ wersjê .NET Core, obie za³¹czone w plikach projektu
+
+Po problemach z dockerem i Dockerfile, uda³o siê utworzyæ build
+	Tworzenie obrazu:	docker build -t webapi_test
+	Tworzenie kontenera:	docker run --publish 8000:8080 --name webapi webapi_test
+	Usuwanie kontenera:	docker rm --force webapi
+
+Dostêp poprzez 192.168.99.100/api/tokens?formula=2-2
+Domyœlny port 80 pomimo ustawieñ
+Kontener jednak dzia³a
