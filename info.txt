@@ -1,4 +1,25 @@
 Wykonowane na ziemniaczanym laptopie
-System: 	W7 Pro
+System: 	W7 Pro SP1 64bit
+Sprzêt:		4GB Ram 
+		Intel Core i3-2328M 2.20GHz
 Wersja NETCore:	2.1.504
-Wersja Docker:	Nie zainstalowany (jeszcze)
+Wersja Docker:	19.03.1 build 74b1e89e8a
+
+Docker Desktop:	tylko dla W10 Pro+;
+Docker Toolbox:	wymagania systemu spe³nione;
+
+
+Instalacja Docker Toolbox:
+	- Docker Machine
+	- Docker Engine
+	- Docker Compose
+	- Kitematic GUI
+	- shell
+
+U¿yto komend: 
+
+1. docker run hello-world // test dzia³ania
+2. docker run -it ubuntu bash // uruchomiliœmy container ubuntu na pow³oce bash
+<ctrl d> - wyjœcie z kontenera, wywo³uje komendê 3. exit
+
+
