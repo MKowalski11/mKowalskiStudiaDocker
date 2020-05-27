@@ -7,3 +7,29 @@ WebAPI nie dzia³a, zbyt nowa wersja .NET Core
 Pobieranie i instalacja wersji 2.1.18
 
 Dzia³a. Próba pusha na git pliku tekstowego
+Dzia³a.
+
+System: Windows 7 Pro SP1 64bit
+Proc:		Intel Core i7-6700K 4.00GHz
+Ram:		16GB
+.NET core:	3.1.201 (oraz rêcznie zainstalowane 2.1.18)
+Docker:		19.03.1 built 74b1e89e8a
+
+Po odpaleniu testowego kontenera (zgodnie z https://docs.docker.com/get-started/part2/ ):
+
+	docker build --tag bulletinboard:1.0 .
+	docker run --publish 8000:8080 --detach --name bb bulletinboard:1.0
+
+Nadal nie ma dostêpu poprzez 8000 ani przez 8080
+Mo¿e uruchomienie serwera Apache po stronie komputera pomo¿e... nope.
+Localhost dzia³a, ale localhost:8000 ani localhost:8080 nie. 
+
+	docker-machine ip default	//zwraca: 192.168.99.100
+
+Po wejœciu na 192.168.99.100:8000 wyœwietla siê zainstalowany, testowy bulletin board
+
+WebApi by³o budowane na wersji 2.1 (na co nawet wskazuj¹ pliki projektu)
+
+Próba odtworzenia projektu WebApi pod 3.1.201
+
+Odtworzono WebAPI pod now¹ wersjê .NET Core, obie za³¹czone w plikach projektu
