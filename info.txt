@@ -1,0 +1,4 @@
+Wykonowane na ziemniaczanym laptopie
+System: 	W7 Pro
+Wersja NETCore:	2.1.504
+Wersja Docker:	Nie zainstalowany (jeszcze)
