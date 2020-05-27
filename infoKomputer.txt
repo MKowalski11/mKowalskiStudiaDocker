@@ -1,0 +1,9 @@
+Przeniesiono pliki na Komputer
+
+Pobrano repozytorium WebAPI oraz Docker
+
+WebAPI nie dzia³a, zbyt nowa wersja .NET Core
+
+Pobieranie i instalacja wersji 2.1.18
+
+Dzia³a. Próba pusha na git pliku tekstowego
