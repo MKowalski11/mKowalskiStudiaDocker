@@ -152,23 +152,39 @@ namespace WebApi2.Controllers
                 if (flagaErr)
                 {
                     WynikError[] result = RPNclass.PostfixCalcMultiXWynikError(wynik.PostfixTokensArray, tmpDouble, tmpDouble2, tmpInt);
+                    for(int i =0;i<7;i++){
+                        //Console.Write("X= "+result[i].X+"\n");
+                        //Console.Write("Y= "+result[i].Y+"\n\n");
+                    }
                     var data = new
                     {
                         status = "error",
                         message = "Error: for some 'x', errors have occured",
                         result = result
                     };
+                    for(int i =0;i<7;i++){
+                        Console.Write("X= "+result[i].X+"\n");
+                        Console.Write("Y= "+result[i].Y+"\n\n");
+                    }
                     return Ok(data);
                 }
                 else
                 {
                     //jeśli jakiegokolwiek błędu nie stwierdzono, wyniki zwracane w postaci double X, double Y, gotowe do dalszego przetwarzania
                     Wynik[] result = RPNclass.PostfixCalcMultiXWynik(wynik.PostfixTokensArray, tmpDouble, tmpDouble2, tmpInt);
+                    for(int i =0;i<7;i++){
+                        //Console.Write("X= "+result[i].X+"\n");
+                        //Console.Write("Y= "+result[i].Y+"\n\n");
+                    }
                     var data = new
                     {
                         status = "ok",
                         result  =  result
                     };
+                    for(int i =0;i<7;i++){
+                        Console.Write("X= "+result[i].X+"\n");
+                        Console.Write("Y= "+result[i].Y+"\n\n");
+                    }
                     return Ok(data);
                 }
             }
