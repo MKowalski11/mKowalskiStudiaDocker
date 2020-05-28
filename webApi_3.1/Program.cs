@@ -21,6 +21,7 @@ namespace WebApi2
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseUrls("http://localhost:8000/","http://192.168.99.100:8000");
                 });
     }
 }

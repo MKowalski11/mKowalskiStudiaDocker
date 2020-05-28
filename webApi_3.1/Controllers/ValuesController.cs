@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using WebApi2;
+using Microsoft.AspNetCore.Cors;
 
 namespace WebApi2.Controllers
 {
@@ -11,6 +12,7 @@ namespace WebApi2.Controllers
     [ApiController]
     public class ONPController: ControllerBase
     {
+        [EnableCors("Dostep")]
 	    [HttpGet]
         [Produces("application/json")]
 	    [Route("tokens")]
@@ -39,6 +41,7 @@ namespace WebApi2.Controllers
                 return Ok(data);
             }
         }
+        [EnableCors("Dostep")]
         [HttpGet]
         [Produces("application/json")]
         [Route("calculate")]
@@ -90,6 +93,7 @@ namespace WebApi2.Controllers
                 }
             }
         }
+        [EnableCors("Dostep")]
         [HttpGet]
         [Produces("application/json")]
         [Route("calculate/xy")]
