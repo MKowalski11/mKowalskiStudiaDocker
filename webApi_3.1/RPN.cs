@@ -9,8 +9,8 @@ namespace WebApi2
     public class Wynik
     {
         //wszystkie dane są wartościami liczbowymi
-        public double X;
-        public double Y;
+        public double X{get;set;}
+        public double Y{get;set;}
     }
     public class WynikError
     {
@@ -19,8 +19,8 @@ namespace WebApi2
          * pole Y może zawierać informacje o próbie podzielenia przez 0 czy innych błędach
          * możliwość "odzysku" poprawnej części poprzez parsowanie string -> double
          */
-        public double X;
-        public string Y;
+        public double X{get;set;}
+        public string Y{get;set;}
     }
     public class RPNclass
     {

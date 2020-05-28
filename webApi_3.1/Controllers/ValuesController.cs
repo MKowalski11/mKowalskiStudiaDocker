@@ -163,8 +163,8 @@ namespace WebApi2.Controllers
                         result = result
                     };
                     for(int i =0;i<7;i++){
-                        Console.Write("X= "+result[i].X+"\n");
-                        Console.Write("Y= "+result[i].Y+"\n\n");
+                        //Console.Write("X= "+result[i].X+"\n");
+                        //Console.Write("Y= "+result[i].Y+"\n\n");
                     }
                     return Ok(data);
                 }
@@ -182,8 +182,8 @@ namespace WebApi2.Controllers
                         result  =  result
                     };
                     for(int i =0;i<7;i++){
-                        Console.Write("X= "+result[i].X+"\n");
-                        Console.Write("Y= "+result[i].Y+"\n\n");
+                        //Console.Write("X= "+result[i].X+"\n");
+                        //Console.Write("Y= "+result[i].Y+"\n\n");
                     }
                     return Ok(data);
                 }
