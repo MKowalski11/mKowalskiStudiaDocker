@@ -35,7 +35,8 @@ namespace WebApi2
                                             "http://localhost:5000",
                                             "http://localhost:8000",
                                             "http://localhost:8080",
-                                            "http://localhost"
+                                            "http://localhost",
+                                            "http://192.168.99.100"
                                             ).AllowAnyHeader();
                     });
                 }
