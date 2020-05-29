@@ -3,9 +3,9 @@
 <html lang='pl'>
 <head>
     <meta charset='UTF-8'>
-    <script src='jquery.js' ></script>
+    <script src='../global/jquery.js' ></script>
     <!--<script src='../global/testJS.js'></script>-->
-
+    <script src='JS.js' ></script>
     <script>
         var wynik;
         var liczby=new Array();
@@ -159,6 +159,16 @@ function wykres(){
             var myCanvas = document.getElementById( "myCanvas" );
             context = myCanvas.getContext( "2d" );
             context.clearRect(0,0,myCanvas.width,myCanvas.height);
+            minX=document.getElementById('Xmin').value;
+            maxX=document.getElementById('Xmax').value;
+            minY=document.getElementById('Ymin').value;
+            maxY=document.getElementById('Ymax').value;
+            skalaX=maxX-minX;
+            skalaY=maxY-minY;
+            document.getElementById('x_min').innerHTML=minX;
+            document.getElementById('x_max').innerHTML=maxX;
+            document.getElementById('y_min').innerHTML=minY;
+            document.getElementById('y_max').innerHTML=maxY;
             if(minY>=maxY || minX>=maxX) {console.log("Incorrect scale");return;}
             os_x=new Os("X");
             os_y=new Os("Y");
@@ -242,13 +252,8 @@ function wykres(){
             funkcja.display(); 
         }
     </script>
-    <title>Interface</title>
+    <title>Szablon</title>
     <style>
-        *{
-                    margin:0;
-    box-sizing: border-box;
-    background-color:hsl(35,60%,90%);
-        }
         #inputy{
         position:relative;
         left:5%;
@@ -321,6 +326,9 @@ function wykres(){
             max-height:200px;
         }
     </style>
+    <link rel='stylesheet' type='text/css' href='CSS.css'>
+    <link rel='stylesheet' type='text/css' href='../global/globalCSS.css'>
+    <link rel='stylesheet' type='text/css' href='../global/testCSS.css'>
 </head>
 <body onLoad="canvas_init();">
     <br/>
@@ -347,8 +355,9 @@ function wykres(){
             <h3>Podaj:</h3><br/>
             <h4>Od X</h4><input id="min_X" type="number" step="0.01"><br/>
             <h4>Do X</h4><input id="max_X" type="number" step="0.01"><br/>
-            <h4>Próbki N</h4><input id="N" type="number" step="1"><br/>
-           
+            <h4>Próbki N</h4><input id="N" type="number" step="1"><br/><br/>
+            <h5>X_min: <input style="width:50px" id="Xmin" type="number" step='1' value='-10'> X_max: <input style="width:50px" id="Xmax" type="number" step='1' value='10'></h5>
+            <h5>Y_min: <input style="width:50px" id="Ymin" type="number" step='1' value='-10'> Y_max: <input style="width:50px" id="Ymax" type="number" step='1' value='10'></h5>
             <br/><button onclick=wykres();>Wyświetl wykres</button>
         <br/><br/><hr/><br/></div>
         <div id='wynik'>
