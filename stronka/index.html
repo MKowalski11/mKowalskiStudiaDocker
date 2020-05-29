@@ -45,6 +45,7 @@ function tokeny(){
     var wzor = document.getElementById("wzor").value;
     //console.log(wzor);
     var url = "http://192.168.99.100:8000/api/tokens?formula="+wzor;
+    url = url.replace('+','%2b');
     console.log(url);
     polaczenie2(url);
     setTimeout(function(){
@@ -76,6 +77,7 @@ function oblicz(){
     //console.log(wzor);
     //console.log(X);
     var url = "http://192.168.99.100:8000/api/calculate?formula="+wzor+"&x="+X;
+    url = url.replace('+','%2b');
     console.log(url);
     polaczenie2(url);
         setTimeout(function(){
@@ -106,6 +108,7 @@ function wykres(){
     //console.log(max_X);
     //console.log(N);
     var url = "http://192.168.99.100:8000/api/calculate/xy?formula="+wzor+"&from="+min_X+"&to="+max_X+"&n="+N;
+    url = url.replace('+','%2b');
     console.log(url);
     polaczenie2(url);
     setTimeout(function(){
