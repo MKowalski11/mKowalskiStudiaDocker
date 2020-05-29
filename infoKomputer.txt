@@ -41,4 +41,5 @@ Po problemach z dockerem i Dockerfile, uda³o siê utworzyæ build
 
 Dostêp poprzez 192.168.99.100/api/tokens?formula=2-2
 Domyœlny port 80 pomimo ustawieñ
+Nie dzia³a na 5000, 8000 ani na 8080
 Kontener jednak dzia³a

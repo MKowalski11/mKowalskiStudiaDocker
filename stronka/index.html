@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+
+<html lang='pl'>
+<head>
+    <meta charset='UTF-8'>
+    <script src='jquery.js' ></script>
+    <!--<script src='../global/testJS.js'></script>-->
+
+    <script>
+        var wynik;
+        var liczby=new Array();
+function polaczenie(){
+    $.ajax({
+                url: 'http://localhost:8000/api/tokens?formula=2-2',
+                type: 'GET',
+                headers: {  'Access-Control-Allow-Origin': '*',
+                            'Allow-Control-Allow-Headers': '*' },
+                crossDomain: true,
+                jsonpCallback: 'callback',
+                data: "json",
+                success: function(data, textStatus, xhr) {
+                    document.getElementById("wynik").innerHTML=data;
+                 },
+                error: function() { alert('Failed!'); }
+            });
+}
+function polaczenie2(adres){
+    $.ajax({
+                url: adres,
+                type: 'GET',
+                headers: {  'Access-Control-Allow-Origin': '*',
+                            'Allow-Control-Allow-Headers': '*' },
+                crossDomain: true,
+                jsonpCallback: 'callback',
+                data: "json",
+                success: function(data, textStatus, xhr) {
+                    document.getElementById("wynik").innerHTML=data.status;
+                    wynik=data;
+                    //document.getElementById("wynik").innerHTML="<h1>CHUJ</h1>";
+                 },
+                error: function() { alert('Failed!'); }
+            });
+}
+function tokeny(){
+    var wzor = document.getElementById("wzor").value;
+    //console.log(wzor);
+    var url = "http://192.168.99.100:8000/api/tokens?formula="+wzor;
+    console.log(url);
+    polaczenie2(url);
+    setTimeout(function(){
+        if(wynik.status=="ok"){
+            tekst="<div>";
+            tekst+="<table><tr><td>lp</td><td>infix</td></tr>";
+            for(var i=0;i<wynik.infix.length;i++ ) tekst+="<tr><td>"+i+"</td><td>"+wynik.infix[i]+"</td></tr>";
+            tekst+="</table></div><div>";
+            tekst+="<table><tr><td>lp</td><td>infix</td></tr>";
+            for( i=0;i<wynik.rpn.length;i++ ) tekst+="<tr><td>"+i+"</td><td>"+wynik.rpn[i]+"</td></tr>";
+            tekst+="</table></div>";
+            
+            }
+        else if(wynik.status=="error"){
+            tekst="<h2>";
+            tekst+=wynik.message;
+            tekst+="</h2>";
+        }
+        else {
+            wynik="Connection problem.";
+        }
+        document.getElementById("wynik").innerHTML=tekst;
+    },1000);
+    
+}
+function oblicz(){
+    var wzor = document.getElementById("wzor").value;
+    var X = document.getElementById("X").value;
+    //console.log(wzor);
+    //console.log(X);
+    var url = "http://192.168.99.100:8000/api/calculate?formula="+wzor+"&x="+X;
+    console.log(url);
+    polaczenie2(url);
+        setTimeout(function(){
+        if(wynik.status=="ok"){
+            tekst="<h2>";
+            tekst+="X: "+X+"<br/>Y: "+wynik.result;
+            tekst+="</h2>";
+            }
+        else if(wynik.status=="error"){
+            tekst="<h2>";
+            tekst+=wynik.message;
+            tekst+="</h2>";
+        }
+        else {
+            wynik="Connection problem.";
+        }
+        document.getElementById("wynik").innerHTML=tekst;
+        
+    },1000);
+}
+function wykres(){
+    var wzor = document.getElementById("wzor").value;
+    var min_X = document.getElementById("min_X").value;
+    var max_X = document.getElementById("max_X").value;
+    var N = document.getElementById("N").value;
+    //console.log(wzor);
+    //console.log(min_X);
+    //console.log(max_X);
+    //console.log(N);
+    var url = "http://192.168.99.100:8000/api/calculate/xy?formula="+wzor+"&from="+min_X+"&to="+max_X+"&n="+N;
+    console.log(url);
+    polaczenie2(url);
+    setTimeout(function(){
+        if(wynik.status=="ok"){
+            tekst="";
+            if(typeof wynik.result!==undefined){
+                tekst+="<table><tr><td>X: </td><td> Y: </td></tr>";
+                for(i=0;i<wynik.result.length;i++){
+                    tekst+="<tr><td>"+wynik.result[i].x+"</td><td>"+wynik.result[i].y+"</td></tr>";
+                }
+                tekst+="</table>";
+                Graf();
+                
+            }
+            }
+        else if(wynik.status=="error"){
+            tekst="<h2>";
+            tekst+=wynik.message;
+            tekst+="</h2>";
+            if(typeof wynik.result!==undefined){
+                tekst+="<table><tr><td>X: </td><td> Y: </td></tr>";
+                for(i=0;i<wynik.result.length;i++){
+                    tekst+="<tr><td>"+wynik.result[i].x+"</td><td>"+wynik.result[i].y+"</td></tr>";
+                }
+                tekst+="</table>";
+                Graf();
+            }
+        }
+        else {
+            wynik="Connection problem.";
+        }
+        document.getElementById("wynik").innerHTML=tekst;
+        
+    },1000);
+}
+</script>
+    <script>
+        var context;
+        var minX=-10;
+        var maxX=10;
+        var minY=-10;
+        var maxY=10;
+        var skalaX=maxX-minX;
+        var skalaY=maxY-minY;
+        var os_x;
+        var os_y;
+        function canvas_init(){
+            var myCanvas = document.getElementById( "myCanvas" );
+            context = myCanvas.getContext( "2d" );
+            context.clearRect(0,0,myCanvas.width,myCanvas.height);
+            if(minY>=maxY || minX>=maxX) {console.log("Incorrect scale");return;}
+            os_x=new Os("X");
+            os_y=new Os("Y");
+            os_x.display();
+            os_y.display();
+            
+        }
+        function Os(oska)
+        {
+            this.X=0;
+            this.Y=0;
+            if(oska=="X"){
+                this.Y=1+600/skalaY*(maxY-0);
+                this.X=0;
+                }
+            if(oska=="Y"){
+                this.Y=0;
+                this.X=1+600/skalaX*(0-minX);
+                }
+            this.display=function(){
+                context.beginPath();
+                if(this.X===0){
+                    context.moveTo(0,this.Y);
+                    context.lineTo(myCanvas.width,this.Y);
+                }
+                if(this.Y===0){
+                    context.moveTo(this.X,0);
+                    context.lineTo(this.X,myCanvas.height);
+                }
+                context.stroke();
+            };
+        }
+        function FunkcjaXY(){
+            liczby = wynik.result;
+            this.X=0;
+            this.Y=0;
+            
+            this.display=function(){
+                previousOutOfDomain=true;
+                context.beginPath();
+                for(var i =0;i<liczby.length;i++){
+                    tmpX=liczby[i].x;
+                    tmpY=liczby[i].y;
+                    if(previousOutOfDomain===true){
+                        if(tmpY[i]=='E') continue;
+                        else{
+                            this.X=Math.round(1+600/skalaX*(tmpX-minX));
+                            this.Y=Math.round(1+600/skalaY*(maxY-tmpY));
+                            context.moveTo(this.X,this.Y);
+                            console.log("MoveTo: "+this.X+";"+this.Y);
+                            previousOutOfDomain=false;
+                        }
+                    }
+                    else{
+                        if(tmpY[i]=='E'){
+                            previousOutOfDomain=true;
+                        }
+                        else{
+                            
+                            this.X=Math.round(1+600/skalaX*(tmpX-minX));
+                            this.Y=Math.round(1+600/skalaY*(maxY-tmpY));
+                            if(tmpY/maxY>10 || tmpY/minY >10){
+                                context.moveTo(this.X,this.Y);
+                                //10timex exceeded upper/lower Y limit, lim() -> INF/-INF
+                                console.log("MoveTo: "+this.X+";"+this.Y);
+                                continue;
+                                }
+                            context.lineTo(this.X,this.Y);
+                            console.log("LineTo: "+this.X+";"+this.Y);
+                        }
+                    }
+                    context.stroke();
+                }
+            };
+        }
+        
+        function Graf(){
+            canvas_init();
+            context.moveTo(0,0);
+            funkcja = new FunkcjaXY();
+            funkcja.display(); 
+        }
+    </script>
+    <title>Interface</title>
+    <style>
+        *{
+                    margin:0;
+    box-sizing: border-box;
+    background-color:hsl(35,60%,90%);
+        }
+        #inputy{
+        position:relative;
+        left:5%;
+        width:30%;
+        }
+        #inputy input{
+            background: white;
+        }
+        #inputy button{
+            background: white;
+        }
+        #wykres{
+        position:fixed;
+        right:5%;
+        width:auto;
+        }
+        table{
+            
+        }
+        tr{
+            
+        }
+        td{
+            margin: 0px;
+            padding:0px;
+            text-align: center;
+            border-collapse: collapse;
+            border:solid black 0px;
+        }
+        #wynik{
+            position: relative;
+                    left:5%;
+                    height:30%;
+                    max-height:200px;
+                    width:30%;
+                    max-width:35%;
+        }
+        #wynik div{
+            width:35%;
+            max-width: 50%;
+            max-height: 30%;
+            float:left;
+            overflow-x: scroll;
+            overflow-y: scroll;
+        }
+        
+        #wynik div table{
+            max-height: 100%;
+            border-collapse: collapse;
+            overflow-x: scroll;
+            overflow-y: scroll;
+        }
+        #wynik div table td{
+            padding:3px;
+            margin:3px;
+        }
+        #wynik table{
+            border-collapse: collapse;
+            max-height: 100%;
+            overflow-x: scroll;
+            overflow-y: scroll;
+        }
+        #wynik table td{
+            padding:3px;
+            margin:3px;
+        }
+        #wynik table tbody{
+            display:block;
+            overflow-y:scroll;
+            max-height:200px;
+        }
+    </style>
+</head>
+<body onLoad="canvas_init();">
+    <br/>
+        <div id="wykres">
+            <table>
+                <tr>
+                    <td></td><td><span id='y_max'>y_max</span></td><td></td>
+                </tr>
+                <tr>
+                    <td><span id='x_min'>x_min</span></td><td>
+                    <canvas id="myCanvas" width="601" height="601" style="background: hsl(30,80%,75%);"/></td>
+                    <td><span id='x_max'>x_max</span></td>
+                </tr>
+                <tr>
+                    <td></td><td><span id='y_min'>y_min</span></td><td></td>
+                </tr>
+            </table>
+            
+            <span></span>
+        </div>
+        <div id="inputy">
+            <h3>Podaj wzór:</h3><input id="wzor" type="text">&emsp;<button onclick=tokeny();>Wyświetl Tokeny</button><br/><br/><hr/><br/>
+            <h3>Podaj X:</h3><input id="X" type="number" step="0.01">&emsp;<button onclick=oblicz();>Oblicz X</button><br/><br/><hr/><br/>
+            <h3>Podaj:</h3><br/>
+            <h4>Od X</h4><input id="min_X" type="number" step="0.01"><br/>
+            <h4>Do X</h4><input id="max_X" type="number" step="0.01"><br/>
+            <h4>Próbki N</h4><input id="N" type="number" step="1"><br/>
+           
+            <br/><button onclick=wykres();>Wyświetl wykres</button>
+        <br/><br/><hr/><br/></div>
+        <div id='wynik'>
+            Tu będą wyniki (kontrolnie)
+        </div>
+</body>
+
+</html>
